@@ -64,6 +64,10 @@ button, .btn {
   cursor: pointer;
 }
 
+.btn {
+  text-decoration: none;
+}
+
 button:hover, .btn:hover {
   opacity: 0.9;
 }
@@ -78,4 +82,37 @@ button:hover, .btn:hover {
   top: 10px;
   background: #F7C64A;
   padding: 0.5rem;
+}
+
+/* Hero Section */
+.hero {
+  background-color: #10291D; /* Dark Green */
+  color: #F7F7F7;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.hero h2 {
+  font-family: 'Italianno', cursive;
+  font-weight: 400;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.description {
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.5;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
