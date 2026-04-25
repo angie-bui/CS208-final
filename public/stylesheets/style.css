@@ -116,3 +116,21 @@ button:hover, .btn:hover {
   gap: 1rem;
   flex-wrap: wrap;
 }
+
+/* Online ordering section */
+.order-preview {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.order-preview h2 {
+  margin-bottom: 0.5rem;
+}
+
+.order-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
