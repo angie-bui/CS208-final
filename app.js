@@ -18,7 +18,26 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(dbMiddleware);
 app.use('/', indexRouter);
-//add more routes here
+
+// Landing page
+app.get('/', (req, res) => {
+  res.render('index', { title: 'Downtown Donuts' });
+});
+
+// Menu page
+app.get('/menu', (req, res) => {
+  res.render('menu', { title: 'Menu' });
+});
+
+// About page
+app.get('/about', (req, res) => {
+  res.render('about', { title: 'About Us' });
+});
+
+// Comments page
+app.get('/comments', (req, res) => {
+  res.render('comments', { title: 'Customer Comments' });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
