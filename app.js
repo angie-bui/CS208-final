@@ -1,10 +1,8 @@
 const express = require('express');
 const path = require('path');
-const { dbMiddleware} = require('./bin/db');
-
+const { dbMiddleware, createDbConnection } = require('./bin/db');
 
 const indexRouter = require('./routes/index');
-//add more handlers here
 
 const app = express();
 
@@ -12,31 +10,41 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(dbMiddleware);
+
+// routes
 app.use('/', indexRouter);
 
-// Landing page
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Downtown Donuts' });
-});
+const db = createDbConnection();
 
-// Menu page
-app.get('/menu', (req, res) => {
-  res.render('menu', { title: 'Menu' });
-});
+db.query('SELECT COUNT(*) AS count FROM comments', (err, results) => {
+  if (err) {
+    console.error('Error checking comments table:', err);
+    return;
+  }
 
-// About page
-app.get('/about', (req, res) => {
-  res.render('about', { title: 'About Us' });
-});
+  if (results[0].count === 0) {
+    console.log('Seeding initial comments...');
 
-// Comments page
-app.get('/comments', (req, res) => {
-  res.render('comments', { title: 'Customer Comments' });
+    const seedQuery = `
+      INSERT INTO comments (name, message)
+      VALUES
+      ('Downtown Donuts Team', 'Welcome to our customer comments page!'),
+      ('Sam', 'The maple bacon bar is my favorite.');
+    `;
+
+    db.query(seedQuery, (err) => {
+      if (err) {
+        console.error('Error seeding comments:', err);
+      } else {
+        console.log('Seed data inserted!');
+      }
+    });
+  }
 });
 
 // catch 404 and forward to error handler
@@ -46,11 +54,9 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
