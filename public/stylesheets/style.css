@@ -134,3 +134,38 @@ button:hover, .btn:hover {
   margin-top: 1.5rem;
   flex-wrap: wrap;
 }
+
+/* Menu layout */
+.menu {
+  padding: 2rem;
+}
+
+.menu h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* Menu item card */
+.menu-item {
+  background: #ffffff;
+  padding: 1rem;
+  border-left: 5px solid #F7C64A; /* Saffron accent */
+}
+
+.menu-item h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+.menu-item p {
+  margin: 0 0 0.5rem 0;
+}
+
+.price {
+  font-weight: bold;
+}
