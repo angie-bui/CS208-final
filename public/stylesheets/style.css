@@ -145,6 +145,10 @@ button:hover, .btn:hover {
   margin-bottom: 2rem;
 }
 
+.menu h2 {
+  margin-top: 2.5rem;
+}
+
 .menu-grid {
   display: grid;
   grid-template-columns: 1fr;
