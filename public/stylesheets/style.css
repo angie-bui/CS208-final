@@ -160,6 +160,7 @@ button:hover, .btn:hover {
   background: #ffffff;
   padding: 1rem;
   border-left: 5px solid #F7C64A; /* Saffron accent */
+	border-radius: 4px;
 }
 
 .menu-item h3 {
@@ -189,4 +190,48 @@ button:hover, .btn:hover {
 .about .btn {
   display: inline-block;
   margin-top: 1rem;
+}
+
+nav ul {
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  nav ul {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 600px) {
+  .menu-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .menu-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.hero-buttons {
+  flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .hero-buttons {
+    flex-direction: row;
+  }
+}
+
+.order-buttons {
+  flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .order-buttons {
+    flex-direction: row;
+  }
 }
