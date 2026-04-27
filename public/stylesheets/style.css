@@ -173,3 +173,20 @@ button:hover, .btn:hover {
 .price {
   font-weight: bold;
 }
+
+/* About page */
+.about {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.about h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.about .btn {
+  display: inline-block;
+  margin-top: 1rem;
+}
