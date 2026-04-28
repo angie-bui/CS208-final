@@ -20,22 +20,51 @@ router.get('/about', function(req, res) {
 router.get('/comments', function(req, res) {
   const db = req.db;
 
-  db.query('SELECT * FROM comments ORDER BY created_at DESC', (err, comments) => {
-    if (err) {
-      console.error('Error loading comments:', err);
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const offset = (page - 1) * limit;
+
+  db.query('SELECT COUNT(*) AS total FROM comments', (countErr, countResults) => {
+    if (countErr) {
+      console.error('Error counting comments:', countErr);
 
       return res.render('comments', {
         title: 'Customer Comments',
         comments: [],
-        error: 'Comments are unavailable right now. Please try again later.'
+        error: 'Comments are unavailable right now. Please try again later.',
+        page: 1,
+        totalPages: 1
       });
     }
 
-    res.render('comments', {
-      title: 'Customer Comments',
-      comments: comments,
-      error: null
-    });
+    const totalComments = countResults[0].total;
+    const totalPages = Math.ceil(totalComments / limit) || 1;
+
+    db.query(
+      'SELECT * FROM comments ORDER BY created_at DESC LIMIT ? OFFSET ?',
+      [limit, offset],
+      (err, comments) => {
+        if (err) {
+          console.error('Error loading comments:', err);
+
+          return res.render('comments', {
+            title: 'Customer Comments',
+            comments: [],
+            error: 'Comments are unavailable right now. Please try again later.',
+            page: 1,
+            totalPages: 1
+          });
+        }
+
+        res.render('comments', {
+          title: 'Customer Comments',
+          comments: comments,
+          error: null,
+          page: page,
+          totalPages: totalPages
+        });
+      }
+    );
   });
 });
 
@@ -46,11 +75,9 @@ router.post('/comments', function(req, res) {
   let name = req.body.name;
   let message = req.body.message;
 
-  // Trim whitespace
   name = name ? name.trim() : '';
   message = message ? message.trim() : '';
 
-  // Validation: empty fields
   if (!name || !message) {
     return db.query('SELECT * FROM comments ORDER BY created_at DESC', (err, comments) => {
       return res.render('comments', {
@@ -61,7 +88,6 @@ router.post('/comments', function(req, res) {
     });
   }
 
-  // Validation: max length
   if (name.length > 80 || message.length > 500) {
     return db.query('SELECT * FROM comments ORDER BY created_at DESC', (err, comments) => {
       return res.render('comments', {
@@ -72,7 +98,6 @@ router.post('/comments', function(req, res) {
     });
   }
 
-  // Basic sanitization
   name = name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   message = message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 

@@ -27,3 +27,13 @@ block content
           h2 #{comment.name}
           p #{comment.message}
           small Posted on #{comment.created_at}
+
+    if totalPages > 1
+      nav.pagination
+        if page > 1
+          a.btn(href=`/comments?page=${page - 1}`) Previous
+
+        span Page #{page} of #{totalPages}
+
+        if page < totalPages
+          a.btn(href=`/comments?page=${page + 1}`) Next

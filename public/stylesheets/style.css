@@ -262,3 +262,13 @@ nav ul {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
