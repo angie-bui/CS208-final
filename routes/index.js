@@ -42,15 +42,53 @@ router.get('/comments', function(req, res) {
 /* Save new comment */
 router.post('/comments', function(req, res) {
   const db = req.db;
-  const name = req.body.name;
-  const message = req.body.message;
+
+  let name = req.body.name;
+  let message = req.body.message;
+
+  // Trim whitespace
+  name = name ? name.trim() : '';
+  message = message ? message.trim() : '';
+
+  // Validation: empty fields
+  if (!name || !message) {
+    return db.query('SELECT * FROM comments ORDER BY created_at DESC', (err, comments) => {
+      return res.render('comments', {
+        title: 'Customer Comments',
+        comments: comments || [],
+        error: 'Name and comment cannot be empty.'
+      });
+    });
+  }
+
+  // Validation: max length
+  if (name.length > 80 || message.length > 500) {
+    return db.query('SELECT * FROM comments ORDER BY created_at DESC', (err, comments) => {
+      return res.render('comments', {
+        title: 'Customer Comments',
+        comments: comments || [],
+        error: 'Input is too long.'
+      });
+    });
+  }
+
+  // Basic sanitization
+  name = name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  message = message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
   const sql = 'INSERT INTO comments (name, message) VALUES (?, ?)';
 
   db.query(sql, [name, message], (err) => {
     if (err) {
       console.error('Error saving comment:', err);
-      return res.redirect('/comments');
+
+      return db.query('SELECT * FROM comments ORDER BY created_at DESC', (err2, comments) => {
+        return res.render('comments', {
+          title: 'Customer Comments',
+          comments: comments || [],
+          error: 'Something went wrong. Please try again.'
+        });
+      });
     }
 
     res.redirect('/comments');
