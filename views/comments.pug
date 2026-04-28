@@ -1,5 +1,29 @@
 extends layout
 
 block content
-  h1 Customer Comments
-  p Read and leave comments here.
+  section.comments-page
+    h1 Customer Comments
+    p Read what customers are saying about Downtown Donuts or leave your own comment.
+
+    form.comment-form(action="/comments", method="POST")
+      div
+        label(for="name") Name
+        input#name(type="text", name="name", required)
+
+      div
+        label(for="message") Comment
+        textarea#message(name="message", rows="5", required)
+
+      button(type="submit") Post Comment
+
+    if error
+      p.error-message #{error}
+
+    if comments.length === 0
+      p No comments yet.
+    else
+      each comment in comments
+        article.comment-card
+          h2 #{comment.name}
+          p #{comment.message}
+          small Posted on #{comment.created_at}

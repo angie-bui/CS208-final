@@ -16,7 +16,7 @@ router.get('/about', function(req, res) {
   res.render('about', { title: 'About Us' });
 });
 
-/* Comments page  */
+/* Comments page */
 router.get('/comments', function(req, res) {
   const db = req.db;
 
@@ -36,6 +36,24 @@ router.get('/comments', function(req, res) {
       comments: comments,
       error: null
     });
+  });
+});
+
+/* Save new comment */
+router.post('/comments', function(req, res) {
+  const db = req.db;
+  const name = req.body.name;
+  const message = req.body.message;
+
+  const sql = 'INSERT INTO comments (name, message) VALUES (?, ?)';
+
+  db.query(sql, [name, message], (err) => {
+    if (err) {
+      console.error('Error saving comment:', err);
+      return res.redirect('/comments');
+    }
+
+    res.redirect('/comments');
   });
 });
 
