@@ -12,9 +12,10 @@ block content
 
       div
         label(for="message") Comment
-        textarea#message(name="message", rows="5", required)
+        textarea#message(name="message", rows="5", maxlength="500", required)
+        small 500 characters maximum
 
-      button(type="submit") Post Comment
+      button#submitBtn(type="submit") Post Comment
 
     if error
       p.error-message #{error}
