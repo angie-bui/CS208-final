@@ -34,7 +34,25 @@ db.query('SELECT COUNT(*) AS count FROM comments', (err, results) => {
       INSERT INTO comments (name, message)
       VALUES
       ('Downtown Donuts Team', 'Welcome to our customer comments page!'),
-      ('Sam', 'The maple bacon bar is my favorite.');
+      ('Sam', 'The maple bacon bar is my favorite.'),
+      ('test user 1', 'test comment 1'),
+      ('test user 2', 'test comment 2'),
+      ('test user 3', 'test comment 3'),
+      ('john', 'donuts were good i think'),
+      ('mary123', 'came here yesterday it was ok'),
+      ('bob', 'the glazed one was pretty good ngl'),
+      ('user4', 'test test test'),
+      ('sarah', 'donuts are donuts i guess'),
+      ('mike', 'my friend told me to come here so i did'),
+      ('tester', 'just leaving a comment for testing'),
+      ('jessica', 'idk it was fine'),
+      ('dave99', 'good enough would maybe come back'),
+      ('anon', 'the chocolate one was alright'),
+      ('user_5', 'test comment hello world'),
+      ('kevin', 'came in got a donut left'),
+      ('lisa', 'not bad not great just normal donuts'),
+      ('placeholder name', 'placeholder message for testing purposes'),
+      ('testaccount', 'this is a test this is only a test');
     `;
 
     db.query(seedQuery, (err) => {
